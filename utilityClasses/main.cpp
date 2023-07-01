@@ -76,6 +76,7 @@ int main(int argc, char *argv[]) {
 
     out << analyzeTextCharacters(text) << Qt::endl;
     out << text << "\n" ;
+    out << "----";
 
     return 0;
 }
