@@ -706,7 +706,8 @@ main.o: ../utilityClasses/main.cpp ../../../Qt/6.5.1/gcc_64/include/QtCore/QCore
 		../../../Qt/6.5.1/gcc_64/include/QtCore/qfileinfo.h \
 		../../../Qt/6.5.1/gcc_64/include/QtCore/QFile \
 		../../../Qt/6.5.1/gcc_64/include/QtCore/QList \
-		../../../Qt/6.5.1/gcc_64/include/QtCore/QStringBuilder
+		../../../Qt/6.5.1/gcc_64/include/QtCore/QStringBuilder \
+		../../../Qt/6.5.1/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../utilityClasses/main.cpp
 
 ####### Install

@@ -6,6 +6,7 @@
 #include <QStringBuilder>
 #include <iostream>
 #include <string>
+#include <QProcess>
 
 int logToFile(QString path, QString filename, QString data) {
     path = QDir::homePath() + "/" + path;
@@ -66,17 +67,108 @@ QString analyzeTextCharacters(QString text) {
   out << text.arg(datetime.toString(), path) ;
  * */
 
+void printIt(const char ch){
+    QTextStream out(stdout);
+    out << ch << Qt::endl;
+}
+
+void printIt(const QString str){
+    QTextStream out(stdout);
+    out << str << Qt::endl;
+}
+
+void printIt(const int & i){
+    QTextStream out(stdout);
+    out << i << Qt::endl;
+}
+
+
+#include <QDebug>
+void showingQuickPrints() {
+    QString s = "Yousef";
+    qDebug() << "hello" << s;;
+    QMap<QString, QString> map;
+    map["username"] = "Yousef";
+    map["password"] = "abcdef";
+
+    qDebug() << map;
+
+
+    qCritical() << "uh oh we had an error";
+}
+
 int main(int argc, char *argv[]) {
+
 
     QTextStream out(stdout);
 
+    QFile file("/home/yousef/qt_projects/Qt/utilityClasses/myfile.txt");
 
-    QString text("   G\"; \"G; hH:G?H?gh?j");
-    text.append("shfjkshdkj sdf");
+    file.open(QIODevice::ReadWrite);
+    auto text = file.readAll();
 
-    out << analyzeTextCharacters(text) << Qt::endl;
     out << text << "\n" ;
-    out << "----";
+
+    out << text.indexOf("ad");
+
+    int pointer = 0;
+
+    while ((pointer = text.indexOf("ad", pointer)) >= 0 ){
+        out << pointer << ": ";
+        pointer++;
+        out << text.mid(pointer-2, 4) << "\n";
+    }
+
+    QTextStream intofile(&file);
+
+    intofile << "searched\n";
+
+    if (!file.exists("/home/yousef/qt_projects/Qt/utilityClasses/myfil2e.txt")){
+        file.copy("/home/yousef/qt_projects/Qt/utilityClasses/myfil2e.txt");
+        out << "file copied";
+    }else{
+        qWarning("already exists");
+    }
+
+    file.close();
+
+    auto permissions = file.permissions();
+
+    out << "permissions : " << permissions << "\n";
+
+    permissions.setFlag(QFileDevice::WriteOther);
+
+    QFileInfo info(file);
+
+    out << "info : " << info.permissions() << "\n";
+
+    out << "readowner : " << QFile::ReadWrite ;
+
+
+    QDir dir(QDir::homePath());
+
+    out <<  dir.path() << "\n" ;
+
+    out << dir.entryInfoList().count() << "\n";
+
+    auto list = dir.entryInfoList();
+
+    auto list2 = dir.entryList() ;
+
+
+
+
+    for (auto l : list) {
+        out << l.baseName() << "\t" ;
+        out << l.size() << "\n" ;
+    }
+
+
+
+
+
+
+
 
     return 0;
 }
